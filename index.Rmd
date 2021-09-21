@@ -15,9 +15,18 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = TRUE)
 
+#install.packages(c("coda","mvtnorm","devtools","loo", "here", "foreign","dagitty", "posterior","bayesplot"))
+#devtools::install_github("rmcelreath/rethinking")
+
+#install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+#install_cmdstan(cores = 2) # make sure you have C++ headers etc installed - e.g. COmmand Line Tools on MacoS
+# see https://mc-stan.org/cmdstanr/articles/cmdstanr.html for mor
+
 library(rethinking) # the sw for model specification (it then uses cmdstan)
 library(foreign) # need to load funky data format
 library(here) # make sure working dir is the same all the time
+library(posterior)
+library(bayesplot)
 set.seed(100)
 ```
 
@@ -94,7 +103,7 @@ Check diagnostics.
 precis(m0)
 ```
 
-The diagnostics looks OK. $\widehat{R} < 1.01$ and the effective sample size (`n_eff`) is in the thousands, so all is well there. Let's also have a look at the trankplots for our estimated parameters.
+The diagnostics (on the MC sampling) looks OK. $\widehat{R} < 1.01$ and the effective sample size (`n_eff`) is in the thousands, so all is well there. Let's also have a look at the trankplots for our estimated parameters.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, results='hide', fig.align='center'}
 trankplot(m0)
