@@ -37,8 +37,12 @@ For this example we'll make use of a dataset found in the PROMISE repository don
 Data, script, etc. are found at the GitHub repository.^[https://github.com/torkar/icse_tutorial]
 
 ```{r}
+setwd("~/Documents/teaching/SENG404/src/icse_tutorial/") # or what your path is
+
 f <- read.arff("data/desharnais.arff")
- 
+
+read.arff 
+
 # remove columns we don't need
 f <- f[-c(1:5,7:11)]
 
@@ -56,7 +60,7 @@ What ontological and epistemological assumptions can we make concerning the unde
 
 From an ontological perspective, the outcome consists of positive integers, i.e., $\mathbb{N}^+$, so a count going from $0 \rightarrow \infty$. For this type of data the $\mathsf{Poisson}(\lambda)$ distribution is commonly used, where $\lambda$ is the parameter we want to estimate.^[For the $\mathsf{Poisson}(\lambda)$, the $\lambda$ estimates the mean *and* the variance of the distribution.]
 
-From an epistemological perspective, and from an information theoretical point of view, we want to use a likelihood that allows the data to happen in the most ways, i.e., it doesn't constrain the story data wants to tell us. Given the above, the maximum entropy distribution is the $\mathsf{Poisson}(\lambda)$.
+From an epistemological perspective, and from an information theoretical point of view, we want to **use a likelihood that allows the data to happen in the most ways**, i.e., it doesn't constrain the story data wants to tell us. Given the above, the maximum entropy distribution is the $\mathsf{Poisson}(\lambda)$.
 
 Let us now design a set of models $\mathbf{M}=\{\mathcal{M}_0,\ldots,\mathcal{M}_n\}$ and see how well they compare concerning out of sample predictions. For the first model we'll use prior predictive checks (which we won't report for the second model), while for the second model we'll do posterior predictive checks.
 
@@ -103,7 +107,7 @@ Check diagnostics.
 precis(m0)
 ```
 
-The diagnostics (on the MC sampling) looks OK. $\widehat{R} < 1.01$ and the effective sample size (`n_eff`) is in the thousands, so all is well there. Let's also have a look at the trankplots for our estimated parameters.
+The diagnostics (on the MC sampling) looks OK. $\widehat{R} < 1.01$ and the effective sample size (`ess_bulk`) is in the thousands, so all is well there. Let's also have a look at the trankplots for our estimated parameters.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, results='hide', fig.align='center'}
 trankplot(m0)
@@ -135,7 +139,7 @@ We've conducted prior predictive checks and checked diagnostics for the above mo
 postcheck(m1, window = 81)
 ```
 
-The vertical axis is the outcome for each case in our dataset on the horizontal. The blue dots are the empirical data. The circles are the posterior mean. We see that the model has terribly fit in many cases (i.e., many of the blue dots are far away from the circles). Our priors are sane, we do know that, but given this large variation the $\mathsf{Poisson}$ might not be the right likelihood after all$\ldots$
+The vertical axis is the outcome for each case in our dataset on the horizontal. The blue dots are the empirical data. The circles are the posterior mean. We see that the model has terribly fit in many cases (i.e., many of the blue dots are far away from the circles). Our priors are sane, we do know that, but given this large variation the $\mathsf{Poisson}$ might not be the right likelihood after all $\ldots$
 
 Remember, the $\mathsf{Poisson}$ assumes that the mean and the variance is approximately equal. Let's check if this is true,
 
